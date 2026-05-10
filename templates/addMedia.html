@@ -1,0 +1,76 @@
+<html>
+
+<head>
+
+    <style>
+         body {
+            background-color:pink;
+        }
+    
+        h1 {
+    
+        }
+
+        p {
+            text-align:center;
+        }
+
+        table {
+            border:1px solid black; 
+        }
+
+        tr, th, td {
+            border:1px solid black; 
+            padding:5px;
+        }
+   </style> 
+
+</head>
+
+
+<body>
+
+    <h1 style="color:red;">{{ failureMsg  }}</h1>
+
+    <form method="get" action="{{ url_for('addMediaHelper') }}">    
+    
+    <table border=1px>
+        <tr>
+        <td>
+        <p>Title:</p>
+        <input type="text" id="title" name="title">
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <p>Year:</p>
+        <input type="text" id="year" name="year">
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <p>Director</p>
+        <input type="text" id="director" name="director">
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <p>Animation Studio:</p>
+        <input type="text" id="animationStudio" name="animationStudio">
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <p>Writer(s):<br>(first last,first last)</p>
+        <input type="text" id="writers" name="writers">
+        </td>
+        </tr>
+    </table>
+
+    <input type=submit name=submitData value="Add Data">       
+    
+    </form>
+
+</body>
+
+</html>

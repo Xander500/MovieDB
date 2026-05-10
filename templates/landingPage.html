@@ -1,0 +1,242 @@
+<html>
+
+    <style>
+
+    body {
+        background-color:pink;
+    }
+    
+    h1 {
+                
+    }
+
+    p {
+    }
+
+    table{
+        border: 0px solid black;
+        overflow-y: scroll;
+        height:50%;
+        width:auto;
+        max-width:33%;
+        max-height:50%;
+        display: block;
+        float: left;
+        margin: 10px;
+        border-collapse: collapse;
+    }   
+
+    tr, th, td { 
+        border: 5px solid black;
+        padding: 5px;
+        vertical-align: top;
+        border: 1px solid black;
+        max-width:20%;
+    }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>{{ msg }}</h1>
+
+    <div style="display:block;">
+
+    <div>
+    <form method=get action="{{ url_for('landingPage') }}" style="float:left">    
+        <select name="director"> 
+                <option value=""> all </option>
+            {% for director in directors %}
+                <option value="{{ director[0] }}">{{ director[0] }}</option>
+            {% endfor %}
+        </select>
+        <select name="year">
+                <option value=""> all </option>
+            {% for year in years %}
+                <option value="{{ year[0] }}">{{ year[0] }}</option>
+            {% endfor %}
+        </select>
+        <select name="writer"> 
+                <option value=""> all </option>
+            {% for writer in writers %}
+                <option value="{{ writer[0] }}">{{ writer[0] }}</option>
+            {% endfor %}
+        </select>
+        <input type=submit name=submit value="Filter">       
+    </form>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div>
+    <table>
+
+        {%if clicked%}
+        <tr>
+        <th><a href="{{ url_for('landingPage',sortWay=sortBy,sortBy='Media.name') }}">Title</a></th>
+        <th><a href="{{ url_for('landingPage',sortWay=sortBy,sortBy='year') }}">Year</a></th>
+        <th><a href="{{ url_for('landingPage',sortWay=sortBy,sortBy='director') }}">Director</a></th>
+        <th><a href="{{ url_for('landingPage',sortWay=sortBy,sortBy='animationProduction') }}">Animation Studio</a></th>
+        <th><a href="{{ url_for('landingPage',sortWay=sortBy,sortBy='writer') }}">Writer</a></th>
+        <th>All Writers</th>
+        </tr>
+        {% else %}
+        <tr>
+        <th><a href="{{ url_for('landingPage',sortBy='Media.name') }}">Title</a></th>
+        <th><a href="{{ url_for('landingPage',sortBy='year') }}">Year</a></th>
+        <th><a href="{{ url_for('landingPage',sortBy='director') }}">Director</a></th>
+        <th><a href="{{ url_for('landingPage',sortBy='animationProduction') }}">Animation Studio</a></th>
+        <th><a href="{{ url_for('landingPage',sortBy='writer') }}">Writer</a></th>
+        <th>All Writers</th>
+        </tr>
+        {% endif %}
+
+    {% for row in media %}
+      
+        <tr>
+        <td><a href="{{ url_for('changeMedia', chosenTitle=row[0]) }}">{{ row[0] }}</a></td>
+        {% for element in row[1:] %}
+            <td>{{ element }}</td>
+        {% endfor %}
+        </tr>
+    {% endfor %}
+    </table>
+    </div>
+        
+    <div>
+    <table>
+    <tr>
+    <th>Title</th>
+    <th>My Rating</th>
+    </tr>
+    {% for row in redisScores %}
+    <tr>
+    <td><a href="{{ url_for('landingPage', redisTitle=row[0]) }}">{{ row[0] }}</a></td>
+    <td>{{ row[1] }}</td>        
+    </tr>
+    {% endfor %}
+    </table>
+    </div> 
+
+    <div>
+    <table style="width:auto; max-width:20%">
+    <tr>
+    <th>{{ redisTitle }}</th>
+    </tr>
+    <tr>
+    <td>{{ redisDiscription }}</td>
+    </tr>
+
+    <tr>
+    <td style="text-align:center;">
+    <form method="get" action="{{ url_for('changeRedis') }}">    
+        <input type="hidden" id="redisDiscription" name="redisDiscription" value="{{ redisDiscription }}">
+        <input type="hidden" id="redisTitleScore" name="redisTitleScore" value="{{ redisTitleScore }}">
+        <input type="hidden" id="redisTitle" name="redisTitle" value="{{ redisTitle  }}">
+
+        <input type="submit" name="submitData" value="Change Redis Data">       
+    </form>
+    </td>
+    </table>
+    </div>
+
+    </div>
+
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <div style="display:block;">
+
+
+    <table>
+    {% for character in mongoCharacters %}
+    <tr>
+    <td> <a href="{{ url_for('landingPage',mongoSelectedCharacter=character['name'],redisTitle=redisTitle) }}">{{ character['name'] }}</a> </td>
+    <tr>
+    {% endfor %}
+    </table>
+
+
+
+
+
+
+    <table>
+    <tr>
+        <td>
+            <p>key</p>
+        </td>
+        <td>
+            <p>value</p>
+        </td>
+    </tr>
+
+    {% for key,value in mongoItems.items() %}
+    <tr>
+        <td>{{key}}</td><td>{{value}}</td>
+    </tr>
+    {% endfor %}
+    </table>
+
+
+
+
+
+
+    <form method="get" action="{{ url_for('changeMongoHelper') }}">    
+
+        <p>Media</p> <input type="text" name="characterMedia" value="">
+
+        <p>Name:</p> <input type="text" name="characterName" list="nameList">
+        <datalist id="nameList">
+            {% for name in names %}
+                <option value="{{ name['name'] }}">{{ name['name'] }}</option>
+            {% endfor %}
+        </datalist>
+
+        <p>Key:</p> <input type="text" name="characterKey" value="">       
+
+        <p>Value:</p> <input type="text" name="characterValue" value="">       
+
+        <br>
+
+        <input type="submit" name="submitMongoData" value="Change Mongo Data">       
+    </form>
+
+    </div>
+
+
+</body>
+
+</HTML>

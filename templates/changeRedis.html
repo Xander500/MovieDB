@@ -1,0 +1,39 @@
+
+<html>
+
+<head>
+
+</head>
+
+
+
+
+<body style="background-color:pink">
+
+    <form method="get" action="{{ url_for('changeRedisHelper') }}">    
+
+        <tr>
+        <td>
+        <p>Rating:</p>
+        <input type="text" id="redisTitleScore" name="redisTitleScore" value="{{ redisTitleScore }}">
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <p>Discription:</p>
+        <input type="text" id="redisDiscription" name="redisDiscription" value="{{ redisDiscription }}">
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <input type="submit" name="submitData" value="Change Redis Data">       
+        </td>
+        </tr>
+
+        <input type="hidden" id="redisTitle" name="redisTitle" value="{{ redisTitle  }}">
+
+    </form>
+
+</body>
+
+</html>
